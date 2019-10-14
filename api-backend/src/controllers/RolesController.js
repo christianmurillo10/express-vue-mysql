@@ -19,7 +19,7 @@ module.exports = {
       return res.badRequest({ err: "Empty Parameter: [params]" });
 
     // Override variables
-    params.created_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+    params.created_at = moment().utc(8).format('YYYY-MM-DD HH:mm:ss');
 
     try {
       // Validators

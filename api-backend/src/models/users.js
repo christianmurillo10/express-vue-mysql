@@ -30,8 +30,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     'updated_at': {
-      type: DataTypes.DATE,
-      allowNull: true
+      type: 'TIMESTAMP',
+      allowNull: true,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     },
     'permission_type': {
       type: DataTypes.SMALLINT(1),
