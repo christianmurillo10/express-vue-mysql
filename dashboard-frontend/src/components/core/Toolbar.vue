@@ -16,7 +16,7 @@
       <v-avatar size="32px" tile>
         <img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify" />
       </v-avatar>
-    </!-->
+    </v-btn> -->
     <v-menu offset-y transition="slide-x-reverse-transition">
       <template v-slot:activator="{ on }">
         <v-btn icon>

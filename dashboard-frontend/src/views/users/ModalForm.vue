@@ -75,16 +75,16 @@ export default {
 
   data: () => ({
     defaultFormData: {
-      username: "",
-      password: "",
-      email: "",
+      username: null,
+      password: null,
+      email: null,
       role_id: null
     },
     formType: "new",
     formData: {
-      username: "",
-      password: "",
-      email: "",
+      username: null,
+      password: null,
+      email: null,
       role_id: null
     },
     valid: true,
@@ -121,8 +121,13 @@ export default {
     this.getUserData();
   },
 
+  created() {
+    this.getRoleData();
+  },
+
   methods: {
     ...mapActions("alerts", ["setAlert"]),
+    ...mapActions("roles", {getRoleData: "getData"}),
     ...mapActions("users", {
       getUserData: "getData",
       saveUserData: "saveData",
@@ -147,6 +152,8 @@ export default {
             type: "success",
             message: response.data.message
           };
+          
+          if (!response.data.result) obj.type = "error"
           this.setAlert(obj);
         })
         .catch(err => console.log(err));
@@ -170,6 +177,8 @@ export default {
                 type: "success",
                 message: response.data.message
               };
+              
+              if (!response.data.result) obj.type = "error"
               this.setAlert(obj);
             })
             .catch(err => console.log(err));
@@ -181,6 +190,8 @@ export default {
                 type: "success",
                 message: response.data.message
               };
+              
+              if (!response.data.result) obj.type = "error"
               this.setAlert(obj);
             })
             .catch(err => console.log(err));

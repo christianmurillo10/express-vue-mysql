@@ -1,23 +1,21 @@
 <template>
   <v-content>
-    <v-container fluid>
-      <div id="core-view">
-        <v-fade-transition mode="out-in">
-          <router-view />
-        </v-fade-transition>
-      </div>
-    </v-container>
+    <div id="core-view">
+      <v-fade-transition mode="out-in">
+        <router-view />
+      </v-fade-transition>
+    </div>
   </v-content>
 </template>
 
 <script>
 export default {
-  metaInfo () {
+  metaInfo() {
     return {
-      title: 'Vue Dashboard'
-    }
+      title: "Vue Dashboard"
+    };
   }
-}
+};
 </script>
 
 <style>

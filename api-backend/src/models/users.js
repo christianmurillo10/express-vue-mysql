@@ -24,9 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     'role_id': {
       type: DataTypes.INTEGER(11),
       references: {
-        model: 'Roles',
+        model: 'roles',
         key: 'id'
       },
+      comment: 'refd to roles.id',
       allowNull: false
     },
     'created_at': {
@@ -41,16 +42,19 @@ module.exports = (sequelize, DataTypes) => {
     },
     'permission_type': {
       type: DataTypes.SMALLINT(1),
+      comment: '1=Role Permissions 2=User Permissions',
       allowNull: false,
       defaultValue: '1'
     },
     'is_logged': {
       type: DataTypes.SMALLINT(1),
+      comment: '0=No 1=Yes',
       allowNull: false,
       defaultValue: '0'
     },
     'is_active': {
       type: DataTypes.SMALLINT(1),
+      comment: '0=No 1=Yes',
       allowNull: false,
       defaultValue: '1'
     },

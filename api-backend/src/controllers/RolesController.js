@@ -31,11 +31,11 @@ module.exports = {
       // Execute findAll query
       data = await Model.Roles.findAll(criteria);
       if (_.isEmpty(data[0])) {
-        let role = await Model.Roles.create(initialValues);
+        let finalData = await Model.Roles.create(initialValues);
         res.json({
           status: 200,
           message: "Successfully created role.",
-          result: _.omit(role.get({ plain: true }), ['is_deleted'])
+          result: _.omit(finalData.get({ plain: true }), ['is_deleted'])
         });
       } else {
         res.json({
@@ -75,11 +75,11 @@ module.exports = {
       // Execute findByPk query
       data = await Model.Roles.findByPk(req.params.id);
       if (!_.isEmpty(data)) {
-        let role = await data.update(initialValues);
+        let finalData = await data.update(initialValues);
         res.json({
           status: 200,
           message: "Successfully updated role.",
-          result: role
+          result: finalData
         });
       } else {
         res.json({
@@ -111,11 +111,11 @@ module.exports = {
       // Execute findByPk query
       data = await Model.Roles.findByPk(req.params.id);
       if (!_.isEmpty(data)) {
-        let role = await data.update({ is_deleted: 1 });
+        let finalData = await data.update({ is_deleted: 1 });
         res.json({
           status: 200,
           message: "Successfully deleted role.",
-          result: role
+          result: finalData
         });
       } else {
         res.json({
@@ -135,13 +135,13 @@ module.exports = {
 
   /**
    * Search
-   * @route POST /role/search/
+   * @route POST /role/search/:value
    * @param req
    * @param res
    * @returns {never}
    */
   search: async (req, res) => {
-    const params = req.body;
+    const params = req.params;
     let query, data;
 
     if (_.isUndefined(params))
@@ -224,7 +224,7 @@ module.exports = {
    * @returns {never}
    */
   findById: async (req, res) => {
-    let data, criteria;
+    let data;
 
     try {
       // Execute findAll query

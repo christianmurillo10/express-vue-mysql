@@ -15,7 +15,7 @@
               <v-text-field
                 v-model="formData.name"
                 :rules="validateItem.nameRules"
-                label="Role"
+                label="Name"
                 required
               ></v-text-field>
             </v-flex>
@@ -52,12 +52,12 @@ export default {
 
   data: () => ({
     defaultFormData: {
-      name: "",
+      name: null,
       description: ""
     },
     formType: "new",
     formData: {
-      name: "",
+      name: null,
       description: ""
     },
     valid: true,
@@ -67,8 +67,7 @@ export default {
         v => (v && v.length <= 50) || "Name must be less than 50 characters"
       ],
       descriptionRules: [
-        v =>
-          (v && v.length <= 500) || "Password must be less than 500 characters"
+        v => (v && v.length <= 500) || "Password must be less than 500 characters"
       ]
     }
   }),
@@ -112,6 +111,8 @@ export default {
             type: "success",
             message: response.data.message
           };
+          
+          if (!response.data.result) obj.type = "error"
           this.setAlert(obj);
         })
         .catch(err => console.log(err));
@@ -135,6 +136,8 @@ export default {
                 type: "success",
                 message: response.data.message
               };
+              
+              if (!response.data.result) obj.type = "error"
               this.setAlert(obj);
             })
             .catch(err => console.log(err));
@@ -146,6 +149,8 @@ export default {
                 type: "success",
                 message: response.data.message
               };
+              
+              if (!response.data.result) obj.type = "error"
               this.setAlert(obj);
             })
             .catch(err => console.log(err));

@@ -40,11 +40,11 @@ module.exports = {
       // Execute findAll query
       data = await Model.Users.findAll(criteria);
       if (_.isEmpty(data[0])) {
-        let user = await Model.Users.create(initialValues);
+        let finalData = await Model.Users.create(initialValues);
         res.json({
           status: 200,
           message: "Successfully created an account.",
-          result: _.omit(user.get({ plain: true }), ['password', 'is_deleted'])
+          result: _.omit(finalData.get({ plain: true }), ['password', 'is_deleted'])
         });
       } else {
         res.json({
@@ -84,11 +84,11 @@ module.exports = {
       // Execute findByPk query
       data = await Model.Users.findByPk(req.params.id);
       if (!_.isEmpty(data)) {
-        let user = await data.update(initialValues);
+        let finalData = await data.update(initialValues);
         res.json({
           status: 200,
           message: "Successfully updated an account.",
-          result: user
+          result: finalData
         });
       } else {
         res.json({
@@ -120,11 +120,11 @@ module.exports = {
       // Execute findByPk query
       data = await Model.Users.findByPk(req.params.id);
       if (!_.isEmpty(data)) {
-        let user = await data.update({ is_deleted: 1 });
+        let finalData = await data.update({ is_deleted: 1 });
         res.json({
           status: 200,
           message: "Successfully deleted an account.",
-          result: user
+          result: finalData
         });
       } else {
         res.json({
@@ -144,13 +144,13 @@ module.exports = {
 
   /**
    * Search users
-   * @route POST /user/search/
+   * @route POST /user/search/:value
    * @param req
    * @param res
    * @returns {never}
    */
   search: async (req, res) => {
-    const params = req.body;
+    const params = req.params;
     let query, data;
 
     if (_.isUndefined(params))

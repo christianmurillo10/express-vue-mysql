@@ -108,7 +108,11 @@ const actions = {
 
 const mutations = {
   SET_DATA(state, payload) {
-    state.roleList = payload;
+    if (payload) {
+      state.roleList = payload;
+    } else {
+      state.roleList = [];
+    }
   },
   ADD_DATA(state, payload) {
     state.roleList.push(payload);

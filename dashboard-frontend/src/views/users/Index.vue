@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid>
     <Alerts />
     <v-divider></v-divider>
     <v-toolbar color="#EEEEEE" dense>
@@ -30,13 +30,13 @@
         <p class="justify-center layout px-0">No data found!</p>
       </template>
     </v-data-table>
-  </div>
+  </v-container>
 </template>
 
 <script>
 import Alerts from "../../components/utilities/Alerts";
 import ModalForm from "./ModalForm";
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -56,7 +56,7 @@ export default {
 
   computed: {
     ...mapState("users", ["userList"]),
-    ...mapGetters("roles", ["getRoleNameById"]),
+    ...mapGetters("roles", ["getRoleNameById"])
   },
 
   watch: {
@@ -65,13 +65,7 @@ export default {
     }
   },
 
-  created() {
-    this.getRoleData();
-  },
-
   methods: {
-    ...mapActions("roles", {getRoleData: "getData"}),
-
     editItem(id) {
       this.setDialog(true);
       this.$refs.modalForm.editItem(id);
@@ -80,7 +74,7 @@ export default {
     deleteItem(id) {
       this.$refs.modalForm.deleteItem(id);
     },
-    
+
     close() {
       this.setDialog(false);
       this.$refs.modalForm.close();

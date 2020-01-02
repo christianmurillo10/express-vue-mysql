@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer 
+  <v-navigation-drawer
     id="app-drawer"
     v-model="primaryDrawer.model"
     :permanent="primaryDrawer.type === 'permanent'"
@@ -12,14 +12,14 @@
     app
     dark
     mobile-break-point="991"
-    width="260"
+    width="300"
   >
     <v-list>
       <v-toolbar flat class="transparent">
         <v-list class="pa-0">
           <v-list-tile avatar>
             <v-list-tile-avatar>
-              <img :src="logo">
+              <img :src="logo" />
             </v-list-tile-avatar>
 
             <v-list-tile-content>
@@ -37,20 +37,59 @@
         </v-list-tile>
       </v-list>
 
-      <v-list class="pt-0" dense>
-        <v-list-tile 
-          v-for="(link, i) in links"
-          :key="i"
-          :to="link.to"
-        >
-          <v-list-tile-action>
-            <v-icon>{{ link.icon }}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ link.text }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+      <!-- Parent navigation -->
+      <v-list class="pt-0" dense v-for="(link, i) in links" :key="i">
+        <template v-if="link.submenus">
+          <v-list-group :prepend-icon="link.icon">
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title class="margin-left-n10">{{ link.text }}</v-list-tile-title>
+              </v-list-tile>
+            </template>
+            <!-- Child navigation -->
+            <v-list class="pt-0" dense v-for="(child, i) in link.childs" :key="i">
+              <template v-if="child.submenus">
+                <v-list-group class="margin-left-n10" no-action sub-group>
+                  <template v-slot:activator>
+                    <v-list-tile>
+                      <v-list-tile-title>{{ child.text }}</v-list-tile-title>
+                    </v-list-tile>
+                  </template>
+                  <!-- Sub-child navigation -->
+                  <v-list class="pt-0" dense v-for="(subChild, i) in child.subChilds" :key="i">
+                    <v-list-tile :to="subChild.to">
+                      <v-list-tile-content>
+                        <v-list-tile-title>{{ subChild.text }}</v-list-tile-title>
+                      </v-list-tile-content>
+                    </v-list-tile>
+                  </v-list>
+                  <!-- End of Sub-child navigation -->
+                </v-list-group>
+              </template>
+              <template v-else>
+                <v-list-tile :to="child.to">
+                  <v-list-tile-action></v-list-tile-action>
+                  <v-list-tile-content class="margin-left-n10">
+                    <v-list-tile-title>{{ child.text }}</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </template>
+            </v-list>
+            <!-- End of Child navigation -->
+          </v-list-group>
+        </template>
+        <template v-else>
+          <v-list-tile :to="link.to">
+            <v-list-tile-action>
+              <v-icon>{{ link.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content class="margin-left-n10">
+              <v-list-tile-title>{{ link.text }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
       </v-list>
+      <!-- End of Parent navigation -->
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -60,28 +99,40 @@ import { mapState } from "vuex";
 
 export default {
   data: () => ({
-    logo: './img/logo.png',
+    logo: "/img/logo.png",
     links: [
       {
-        to: '/',
-        icon: 'dashboard',
-        text: 'Dashboard'
+        to: "/",
+        icon: "dashboard",
+        text: "Dashboard"
       },
       {
-        to: '/users',
-        icon: 'person',
-        text: 'Users'
+        to: "/users",
+        icon: "person",
+        text: "Users"
       },
       {
-        to: '/roles',
-        icon: 'person_pin',
-        text: 'Role'
+        icon: "build",
+        text: "Role Based Access",
+        submenus: true,
+        childs: [
+          {
+            to: "/roles",
+            text: "Roles"
+          }
+        ]
       }
     ],
     responsive: true
   }),
-  computed : {
-    ...mapState('toolbar', ['primaryDrawer']),
-  },
-}
+  computed: {
+    ...mapState("toolbar", ["primaryDrawer"])
+  }
+};
 </script>
+
+<style>
+.margin-left-n10 {
+  margin-left: -10px !important;
+}
+</style>
